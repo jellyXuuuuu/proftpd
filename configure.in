@@ -2759,17 +2759,17 @@ fi
 dnl Custom-rolled macro for checking return type of setgrent(3)
 PR_FUNC_SETGRENT_VOID
 
-dnl Perform checks for curses/ncurses libraries only if the corresponding
-dnl headers have been found.
-if test x"$ac_cv_header_curses_h" = xyes; then
+if test x"$enable_curses" != xno ; then
   AC_CHECK_LIB(curses, initscr,
     [ CURSES_LIBS="-lcurses"
       AC_DEFINE(HAVE_LIBCURSES, 1, [Define if you have curses])
+      AC_DEFINE(PR_USE_CURSES, 1, [Define if using curses support])
     ])
 fi
 
-pr_have_ncursesw="no"
-if test x"$ac_cv_header_ncurses_h" = xyes; then
+if test x"$enable_ncurses" != xno ; then
+  pr_have_ncursesw="no"
+
   dnl If NLS support has been enabled, then check for the locale-sensitive
   dnl libncursesw library first; if not found, or if no NLS support, then
   dnl check for libncurses.
@@ -2786,19 +2786,13 @@ if test x"$ac_cv_header_ncurses_h" = xyes; then
           ])
       ])
 
-  else 
+  else
     AC_CHECK_LIB(ncurses, initscr,
       [ CURSES_LIBS="-lncurses"
         AC_DEFINE(HAVE_LIBNCURSES, 1, [Define if you have ncurses])
       ])
   fi
-fi
 
-if test x"$enable_curses" != xno ; then
-  AC_DEFINE(PR_USE_CURSES, 1, [Define if using curses support])
-fi
-
-if test x"$enable_ncurses" != xno ; then
   dnl Check for the libtinfo library, which contains the halfdelay() curses
   dnl function on some systems (e.g. OpenSuSE); see Bug#3718.  Note that on
   dnl some systems, this may need to be libtinfow instead; see Issue #1174.

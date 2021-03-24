@@ -22987,7 +22987,7 @@ $as_echo "#define SETGRENT_VOID 1" >>confdefs.h
 fi
 
 
-if test x"$ac_cv_header_curses_h" = xyes; then
+if test x"$enable_curses" != xno ; then
   { $as_echo "$as_me:${as_lineno-$LINENO}: checking for initscr in -lcurses" >&5
 $as_echo_n "checking for initscr in -lcurses... " >&6; }
 if ${ac_cv_lib_curses_initscr+:} false; then :
@@ -23030,12 +23030,16 @@ if test "x$ac_cv_lib_curses_initscr" = xyes; then :
 $as_echo "#define HAVE_LIBCURSES 1" >>confdefs.h
 
 
-fi
+$as_echo "#define PR_USE_CURSES 1" >>confdefs.h
+
 
 fi
 
-pr_have_ncursesw="no"
-if test x"$ac_cv_header_ncurses_h" = xyes; then
+fi
+
+if test x"$enable_ncurses" != xno ; then
+  pr_have_ncursesw="no"
+
 
   if test x"$enable_nls" = xyes ; then
     { $as_echo "$as_me:${as_lineno-$LINENO}: checking for initscr in -lncursesw" >&5
@@ -23177,15 +23181,7 @@ $as_echo "#define HAVE_LIBNCURSES 1" >>confdefs.h
 fi
 
   fi
-fi
 
-if test x"$enable_curses" != xno ; then
-
-$as_echo "#define PR_USE_CURSES 1" >>confdefs.h
-
-fi
-
-if test x"$enable_ncurses" != xno ; then
 
   if test x"$pr_have_ncursesw" = xyes ; then
 
